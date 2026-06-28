@@ -1,0 +1,22 @@
+.DS_Store
+.claude/
+
+# Flutter
+ebook/build/
+ebook/.dart_tool/
+ebook/.packages
+ebook/.flutter-plugins
+ebook/.flutter-plugins-dependencies
+
+# Backend
+ebook_backend/node_modules/
+ebook_backend/.env
+ebook_backend/uploads/books/*
+ebook_backend/uploads/covers/*
+!ebook_backend/uploads/books/.gitkeep
+!ebook_backend/uploads/covers/.gitkeep
+
+# IDE
+*.iml
+.idea/
+.vscode/
