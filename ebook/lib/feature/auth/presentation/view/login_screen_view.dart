@@ -58,6 +58,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: gradientEndColor,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -94,7 +95,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
             ),
             SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 18, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 14, 24, 40),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -123,17 +124,17 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 18),
                     Text(
                       "Welcome back\nto your reading space.",
-                      style: theme.textTheme.headlineLarge,
+                      style: theme.textTheme.headlineMedium,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     Text(
                       "Continue reading, manage favorites, and keep every note in one calm place.",
                       style: theme.textTheme.bodyMedium,
                     ),
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
@@ -152,12 +153,12 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Sign in", style: theme.textTheme.titleLarge),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: 4),
                           Text(
                             "Use your email and password to enter the library.",
                             style: theme.textTheme.bodyMedium,
                           ),
-                          const SizedBox(height: 22),
+                          const SizedBox(height: 16),
                           const Text(
                             "Email",
                             style: TextStyle(
@@ -190,7 +191,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -198,7 +199,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                         child: const Text("Forgot password?"),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 6),
                     Obx(
                       () => _loginController.isLoading.value
                           ? const Center(
@@ -213,7 +214,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                               onTap: _onLoginTap,
                             ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

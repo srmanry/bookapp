@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Shelf Story',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: const LoginScreenView(),
     );

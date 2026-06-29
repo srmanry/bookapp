@@ -1,9 +1,10 @@
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
 import "package:get/get.dart";
+import "package:libararybd/core/util/custom_color.dart";
+import "package:libararybd/core/widgets/app_surfaces.dart";
 import "package:libararybd/core/widgets/custom_button.dart";
 import "package:libararybd/core/widgets/custom_text_field.dart";
-import "package:libararybd/core/util/custom_color.dart";
 import "package:libararybd/feature/profile/presentation/controller/book_upload_controller.dart";
 
 class BookUploadScreenView extends StatefulWidget {
@@ -65,7 +66,9 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
       );
       _titleController.clear();
       _authorController.clear();
-      setState(() { _selectedCategory = null; });
+      setState(() {
+        _selectedCategory = null;
+      });
       return;
     }
 
@@ -85,12 +88,12 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
 
     return InkWell(
       onTap: onPick,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: hasPicked ? appColor.withValues(alpha: 0.08) : cardSoftColor,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: hasPicked ? appColor : borderColor,
             width: hasPicked ? 1.4 : 1,
@@ -99,13 +102,11 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
-                color: hasPicked
-                    ? appColor.withValues(alpha: 0.14)
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(14),
+                color: hasPicked ? appColor.withValues(alpha: 0.14) : Colors.white,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 hasPicked ? Icons.check_circle_rounded : icon,
@@ -121,7 +122,7 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
                     label,
                     style: const TextStyle(
                       color: titleColor,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -132,13 +133,14 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
                     style: TextStyle(
                       color: hasPicked ? appColor : mutedTextColor,
                       fontSize: 13,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ),
             Icon(
-              Icons.upload_file_rounded,
+              Icons.arrow_outward_rounded,
               color: hasPicked ? appColor : mutedTextColor,
             ),
           ],
@@ -152,142 +154,174 @@ class _BookUploadScreenViewState extends State<BookUploadScreenView> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text("Publish book")),
-      body: Obx(
-        () => SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(
-            18, 12, 18, MediaQuery.of(context).viewInsets.bottom + 120,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: cardSoftColor,
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Share a new story",
-                      style: TextStyle(
-                        color: titleColor,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "Pick your book file, add details, and publish for readers.",
-                      style: TextStyle(color: mutedTextColor, height: 1.45),
-                    ),
-                  ],
-                ),
+      body: AppBackground(
+        child: SafeArea(
+          child: Obx(
+            () => SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                18,
+                12,
+                18,
+                MediaQuery.of(context).viewInsets.bottom + 120,
               ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: surfaceColor,
-                  borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: borderColor),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _filePickerTile(
-                      label: "Book file",
-                      hint: "Tap to select PDF or EPUB",
-                      icon: Icons.menu_book_rounded,
-                      pickedName: _ctrl.pickedBookName.value,
-                      onPick: _pickBookFile,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const AppSectionCard(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [appColor, Color(0xFF14947A)],
                     ),
-                    const SizedBox(height: 14),
-                    _filePickerTile(
-                      label: "Cover image (optional)",
-                      hint: "Tap to select cover image",
-                      icon: Icons.image_outlined,
-                      pickedName: _ctrl.pickedCoverName.value,
-                      onPick: _pickCoverImage,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Book name",
-                      style: TextStyle(
-                        color: titleColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      hinText: "Enter the book title",
-                      controller: _titleController,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      "Author name",
-                      style: TextStyle(
-                        color: titleColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      hinText: "Enter author name",
-                      controller: _authorController,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      "Category",
-                      style: TextStyle(
-                        color: titleColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    DropdownButtonFormField<String>(
-                      value: _selectedCategory,
-                      decoration: const InputDecoration(
-                        hintText: "Select a category",
-                      ),
-                      items: _ctrl.categories
-                          .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                          .toList(),
-                      onChanged: (v) => setState(() { _selectedCategory = v; }),
-                    ),
-                    if (_ctrl.uploadStatus.value.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Share a new story",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w800,
                           ),
-                          const SizedBox(width: 12),
-                          Text(
-                            _ctrl.uploadStatus.value,
-                            style: const TextStyle(
-                              color: appColor,
-                              fontWeight: FontWeight.w600,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Pick your book file, add a cover, and publish for readers in a few calm steps.",
+                          style: TextStyle(
+                            color: Color(0xFFE7FFF7),
+                            height: 1.45,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  AppSectionCard(
+                    color: cardSoftColor,
+                    radius: 26,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: accentColor.withValues(alpha: 0.16),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: const Icon(
+                            Icons.tips_and_updates_rounded,
+                            color: accentColor,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        const Expanded(
+                          child: Text(
+                            "Supported formats are PDF and EPUB. A clean cover helps the shelf look stronger, but it is optional.",
+                            style: TextStyle(
+                              color: titleColor,
+                              fontWeight: FontWeight.w700,
+                              height: 1.35,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                    const SizedBox(height: 22),
-                    _ctrl.isLoading.value
-                        ? const Center(child: CircularProgressIndicator())
-                        : CustomBottom(
-                            name: "Publish",
-                            bottomColor: appColor,
-                            onTap: _onPublish,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  AppSectionCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _filePickerTile(
+                          label: "Book file",
+                          hint: "Tap to select PDF or EPUB",
+                          icon: Icons.menu_book_rounded,
+                          pickedName: _ctrl.pickedBookName.value,
+                          onPick: _pickBookFile,
+                        ),
+                        const SizedBox(height: 14),
+                        _filePickerTile(
+                          label: "Cover image (optional)",
+                          hint: "Tap to select cover image",
+                          icon: Icons.image_outlined,
+                          pickedName: _ctrl.pickedCoverName.value,
+                          onPick: _pickCoverImage,
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Book name",
+                          style: TextStyle(
+                            color: titleColor,
+                            fontWeight: FontWeight.w700,
                           ),
-                  ],
-                ),
+                        ),
+                        const SizedBox(height: 8),
+                        CustomTextField(
+                          hinText: "Enter the book title",
+                          controller: _titleController,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          "Author name",
+                          style: TextStyle(
+                            color: titleColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        CustomTextField(
+                          hinText: "Enter author name",
+                          controller: _authorController,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          "Category",
+                          style: TextStyle(
+                            color: titleColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        DropdownButtonFormField<String>(
+                          initialValue: _selectedCategory,
+                          decoration: const InputDecoration(
+                            hintText: "Select a category",
+                          ),
+                          items: _ctrl.categories
+                              .map(
+                                (c) => DropdownMenuItem(
+                                  value: c,
+                                  child: Text(c),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (v) => setState(() {
+                            _selectedCategory = v;
+                          }),
+                        ),
+                        if (_ctrl.uploadStatus.value.isNotEmpty) ...[
+                          const SizedBox(height: 16),
+                          AppInlineMessage(
+                            message: _ctrl.uploadStatus.value,
+                            accentColor: appColor,
+                            icon: Icons.cloud_upload_rounded,
+                          ),
+                        ],
+                        const SizedBox(height: 22),
+                        _ctrl.isLoading.value
+                            ? const Center(child: CircularProgressIndicator())
+                            : CustomBottom(
+                                name: "Publish",
+                                bottomColor: appColor,
+                                onTap: _onPublish,
+                              ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

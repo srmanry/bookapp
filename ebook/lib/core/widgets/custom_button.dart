@@ -15,26 +15,30 @@ class CustomBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = onTap != null;
+
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 58,
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: bottomColor.withValues(alpha: 0.24),
-              blurRadius: 24,
-              offset: const Offset(0, 10),
+              color: isEnabled
+                  ? bottomColor.withValues(alpha: 0.24)
+                  : mutedTextColor.withValues(alpha: 0.14),
+              blurRadius: 26,
+              offset: const Offset(0, 12),
             ),
           ],
         ),
         child: ElevatedButton(
-          onPressed: onTap ?? () {},
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
             backgroundColor: bottomColor,
             foregroundColor: Colors.white,
-            disabledBackgroundColor: mutedTextColor,
+            disabledBackgroundColor: mutedTextColor.withValues(alpha: 0.7),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -47,8 +51,9 @@ class CustomBottom extends StatelessWidget {
               Text(
                 name,
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 15.5,
                   fontWeight: FontWeight.w700,
+                  letterSpacing: 0.1,
                 ),
               ),
               const SizedBox(width: 8),

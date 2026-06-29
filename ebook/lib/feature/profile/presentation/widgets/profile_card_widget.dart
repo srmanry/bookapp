@@ -32,6 +32,13 @@ class ProfileCardWidget extends StatelessWidget {
               color: surfaceColor,
               borderRadius: BorderRadius.circular(22),
               border: Border.all(color: borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: titleColor.withValues(alpha: 0.06),
+                  blurRadius: 18,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
             child: Row(
               children: [
@@ -51,7 +58,15 @@ class ProfileCardWidget extends StatelessWidget {
                     children: [
                       Text(name, style: const TextStyle(color: titleColor, fontSize: 15, fontWeight: FontWeight.w700)),
                       const SizedBox(height: 4),
-                      Text(subtitle, style: const TextStyle(color: mutedTextColor, fontSize: 13)),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          color: mutedTextColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          height: 1.35,
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,9 +1,10 @@
 import "dart:typed_data";
 
-import "package:flutter/material.dart";
 import "package:epub_view/epub_view.dart";
+import "package:flutter/material.dart";
 import "package:internet_file/internet_file.dart";
 import "package:libararybd/core/util/custom_color.dart";
+import "package:libararybd/core/widgets/app_surfaces.dart";
 import "package:libararybd/feature/home/data/model/book_model.dart";
 import "package:syncfusion_flutter_pdfviewer/pdfviewer.dart";
 
@@ -83,21 +84,24 @@ class _ReadBookScreenViewState extends State<ReadBookScreenView> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.menu_book_outlined,
-              size: 48,
-              color: mutedTextColor,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: titleColor, height: 1.4),
-            ),
-          ],
+        child: AppSectionCard(
+          radius: 24,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.menu_book_outlined,
+                size: 48,
+                color: mutedTextColor,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: titleColor, height: 1.4),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -150,7 +154,80 @@ class _ReadBookScreenViewState extends State<ReadBookScreenView> {
           overflow: TextOverflow.ellipsis,
         ),
       ),
-      body: _buildReader(),
+      body: AppBackground(
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 6, 18, 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppSectionCard(
+                  color: cardSoftColor,
+                  radius: 24,
+                  padding: const EdgeInsets.all(18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          AppPill(label: widget.book.category),
+                          AppPill(
+                            label: widget.book.formatLabel,
+                            foregroundColor: titleColor,
+                            backgroundColor: surfaceColor,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        widget.book.title,
+                        style: const TextStyle(
+                          color: titleColor,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          height: 1.15,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        widget.book.authorName,
+                        style: const TextStyle(
+                          color: mutedTextColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(28),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: surfaceColor,
+                        borderRadius: BorderRadius.circular(28),
+                        border: Border.all(color: borderColor),
+                        boxShadow: [
+                          BoxShadow(
+                            color: titleColor.withValues(alpha: 0.07),
+                            blurRadius: 22,
+                            offset: const Offset(0, 12),
+                          ),
+                        ],
+                      ),
+                      child: _buildReader(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
